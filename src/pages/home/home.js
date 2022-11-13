@@ -9,8 +9,8 @@ function Home() {
 	const out = () => {
 		signOut(auth)
 			.then(() => {
-				console.log('lol')
 				setUser({ email: null, id: null, token: null })
+				console.log(email)
 				// Sign-out successful.
 			})
 			.catch((error) => {
