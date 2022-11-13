@@ -2,6 +2,7 @@ import { Button } from '@mui/material'
 import { useAuth } from '../../hooks/use-auth'
 import { Navigate } from 'react-router-dom'
 import { getAuth, signOut } from 'firebase/auth'
+import { setUser } from 'store/slices/userSlice'
 function Home() {
 	const { isAuth, email } = useAuth()
 	const auth = getAuth()
@@ -9,7 +10,7 @@ function Home() {
 		signOut(auth)
 			.then(() => {
 				console.log('lol')
-				console.log(email)
+				setUser({ email: null, id: null, token: null })
 				// Sign-out successful.
 			})
 			.catch((error) => {
