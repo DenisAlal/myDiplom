@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { Button } from 'rsuite';
 import { AuthContext } from '../../context/AuthContext';
 import AppBarHome from '../../components/appBarHome/appBarHome';
 function Home() {
