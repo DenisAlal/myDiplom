@@ -1,4 +1,4 @@
-import AppBarLog from '../../components/appBarHome/appBarHome';
+import AppBarLog from '../../components/appBar/appBar';
 import './infoPage.scss';
 import { Outlet } from 'react-router-dom';
 

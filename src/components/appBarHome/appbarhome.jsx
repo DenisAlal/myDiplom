@@ -1,12 +1,11 @@
 import { AppBar, Toolbar, IconButton, Typography } from '@mui/material';
 import RuleOutlinedIcon from '@mui/icons-material/RuleOutlined';
-import LogoutIcon from '@mui/icons-material/Logout';
+import LoginIcon from '@mui/icons-material/Login';
 import './appBarHome.scss';
 import { useNavigate } from 'react-router-dom';
-
 function AppBarHome() {
   const navigate = useNavigate();
-  const tohome = () => {
+  const home = () => {
     navigate('/home');
   };
   const login = () => {
@@ -20,7 +19,7 @@ function AppBarHome() {
             edge='start'
             color='inherit'
             aria-label='menu'
-            onClick={tohome}
+            onClick={home}
           >
             <RuleOutlinedIcon />
           </IconButton>
@@ -31,7 +30,7 @@ function AppBarHome() {
             aria-label='login'
             onClick={login}
           >
-            <LogoutIcon />
+            <LoginIcon />
           </IconButton>
         </Toolbar>
       </AppBar>
