@@ -1,9 +1,8 @@
-import './App.scss'
-import { Routes, Route } from 'react-router-dom'
-
-import InfoPage from './pages/infoPage/infoPage'
-import Login from 'pages/login/login'
-import Home from 'pages/home/home'
+import "./App.scss"
+import { Routes, Route } from "react-router-dom"
+import InfoPage from "./pages/infoPage/infoPage"
+import Login from "pages/login/login"
+import Home from "pages/home/home"
 function App() {
   return (
     <div className="App">
@@ -11,7 +10,7 @@ function App() {
         <Routes>
           <Route path="/" element={<InfoPage />} />
           <Route path="/login" element={<Login />} />
-          <Route path='/home' element={<Home/>}/>
+          <Route path="/home" element={<Home />} />
         </Routes>
       </header>
     </div>
