@@ -11,8 +11,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const {dispatch} = useContext(AuthContext)
-
+  const { dispatch } = useContext(AuthContext);
 
   const handleLogin = (e) => {
     e.preventDefault();
