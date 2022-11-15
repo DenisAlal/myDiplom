@@ -1,9 +1,50 @@
+@import 'rsuite/dist/rsuite.css';
 .ToolBar {
   background-color: #000276b7;
 }
 .inher {
   color: inherit;
 }
-.tab {
-  margin: 60px 0 0 20px;
+.settings {
+  width: 300px;
+  height: 150px;
+  background-color: rgb(222, 239, 252);
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 10px 10px 0 0;
+  border-radius: 10px;
+}
+.titleSettings {
+  top: 0;
+  left: 0;
+  position: absolute;
+  margin: 10px 0 0 15px;
+  color: black;
+}
+.closeSettings {
+  top: 0;
+  right: 0;
+  position: absolute;
+  margin: 2px 10px 0 0;
+}
+.buttonsSettings {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+.buttonSet {
+  height: 40px;
+  margin-top: 10px;
+  border-color: #b5b6e8b7;
+  background-color: #000276b7;
+  color: white;
+}
+.titleSet {
+  font-weight: bold;
+  color: black;
+  font-size: large;
 }

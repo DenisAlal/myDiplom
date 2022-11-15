@@ -9,9 +9,8 @@ const Login = () => {
   const [error, setError] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
-
   const { dispatch } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -22,7 +21,6 @@ const Login = () => {
         navigate('/home');
       })
       .catch((error) => {
-        const errorMessage = error.message;
         setError(true);
       });
   };
@@ -30,6 +28,7 @@ const Login = () => {
     <div className='login'>
       <div className='div'>
         <form className='form' onSubmit={handleLogin}>
+          <span className='titleLogin'>Авторизация</span>
           <TextField
             id='outlined-basic'
             label='Логин'

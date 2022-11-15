@@ -1,26 +1,47 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
-
-import { AppBar, Toolbar, IconButton, Typography } from '@mui/material';
-import RuleOutlinedIcon from '@mui/icons-material/RuleOutlined';
-import LoginIcon from '@mui/icons-material/Login';
 import './home.scss';
 import { useNavigate } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../firebase';
+import HomeIcon from '@rsuite/icons/legacy/Home';
+import TuneIcon from '@mui/icons-material/Tune';
+import { Button } from 'rsuite';
+import {
+  Stack,
+  Item,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 function Home() {
-  const { currentUser } = useContext(AuthContext);
-  var obj = JSON.stringify(currentUser);
-  var objectJSON = JSON.parse(obj);
   const navigate = useNavigate();
+  const { dispatch } = useContext(AuthContext);
+  // functions
   const home = () => {
     navigate('/home');
   };
-  const login = () => {
-    navigate('/login');
+
+  const logOut = (e) => {
+    signOut(auth)
+      .then(() => {
+        dispatch({ type: 'LOGOUT' });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
+  const goSettings = () => {};
+  // setings menu
+
+  const [open, setOpen] = React.useState(false);
+
   return (
     <>
       <header>
-        <AppBar position='fixed' color='transparent'>
+        <AppBar position='static' color='transparent'>
           <Toolbar variant='dense' className='ToolBar'>
             <IconButton
               edge='start'
@@ -28,25 +49,48 @@ function Home() {
               aria-label='menu'
               onClick={home}
             >
-              <RuleOutlinedIcon />
+              <HomeIcon />
             </IconButton>
-            <Typography flexGrow={1} />
+            <Typography flexGrow={1} />{' '}
             <IconButton
               edge='start'
               color='inherit'
               aria-label='login'
-              onClick={login}
+              onClick={() => setOpen(!open)}
             >
-              <LoginIcon />
+              <TuneIcon />
             </IconButton>
           </Toolbar>
         </AppBar>
       </header>
       <main>
-        
-        <h1 className='tab'> Hello my little friend, {objectJSON.email}</h1>
+        {open && (
+          <div className='settings'>
+            <div className='closeSettings'>
+              <IconButton onClick={() => setOpen(!open)}>
+                <CloseIcon />
+              </IconButton>
+            </div>
+
+            <div className='buttonsSettings'>
+              <span className='titleSet'>Настройки</span>
+              <Button
+                appearance='ghost'
+                className='buttonSet'
+                onClick={goSettings}
+              >
+                Настройки пользователя
+              </Button>
+              <Button appearance='ghost' className='buttonSet' onClick={logOut}>
+                Выход
+              </Button>
+            </div>
+          </div>
+        )}
       </main>
     </>
   );
 }
 export default Home;
+/*Нужно сделать вложенную навигацию для сайта внутри home. т.е. /home/scan 
+или home/settings и т.д*/
