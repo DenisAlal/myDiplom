@@ -30,7 +30,7 @@ function Home() {
             >
               <RuleOutlinedIcon />
             </IconButton>
-            <Typography flexGrow={1} />{' '}
+            <Typography flexGrow={1} />
             <IconButton
               edge='start'
               color='inherit'
@@ -43,7 +43,7 @@ function Home() {
         </AppBar>
       </header>
       <main>
-        {' '}
+        
         <h1 className='tab'> Hello my little friend, {objectJSON.email}</h1>
       </main>
     </>
