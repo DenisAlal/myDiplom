@@ -7,9 +7,9 @@ function Start() {
       <AppBarLog goToHome={'/'} type={'info'} />
       <main>
         <div className='info_block'>
-          <h1>
+          <h4>
             Это иноформация о сайте, этот сайт ультра мега крутышка пушка гонка
-          </h1>
+          </h4>
         </div>
       </main>
     </>
