@@ -19,6 +19,7 @@ const Login = () => {
         const user = userCredential.user;
         dispatch({ type: 'LOGIN', payload: user });
         navigate('/home');
+        console.log(user);
       })
       .catch((error) => {
         setError(true);
