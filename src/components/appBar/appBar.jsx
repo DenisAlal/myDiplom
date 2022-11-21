@@ -14,14 +14,21 @@ import {
   Stack,
   TextField,
   Avatar,
+  Alert,
 } from '@mui/material';
 import './appBar.scss';
 import { useNavigate } from 'react-router-dom';
-import { Modal, ButtonToolbar, Button, Loader, Input } from 'rsuite';
-import AccountCircle from '@mui/icons-material/AccountCircle';
+import { Modal, Button, Loader } from 'rsuite';
 import { auth } from '../../firebase';
 import { AuthContext } from '../../context/AuthContext';
-import { signOut, updateProfile, onAuthStateChanged } from 'firebase/auth';
+import {
+  EmailAuthProvider,
+  signOut,
+  updateProfile,
+  onAuthStateChanged,
+  updatePassword,
+  reauthenticateWithCredential,
+} from 'firebase/auth';
 
 function AppBarNew(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -48,10 +55,14 @@ function AppBarNew(props) {
   const handleOpenMenu = () => setOpen(true);
   const handleCloseMenu = () => setOpen(false);
   const { dispatch } = useContext(AuthContext);
-  const [displayNameUser, setDisplayName] = React.useState('');
+  const [displayNameUser, setDisplayName] = React.useState(null);
   const [userN, setUserN] = React.useState('');
+  const [userPassword, setPassword] = React.useState(null);
+  const [userPasswordCheck, setPasswordCheck] = React.useState(null);
+  const [passwordErr, setPasswordErr] = React.useState(null);
+
   const handleEntered = () => {
-    setTimeout(() => setTime(5), 1000);
+    setTimeout(() => setTime(5), 500);
     getInfo();
   };
 
@@ -70,21 +81,51 @@ function AppBarNew(props) {
       .catch((error) => {
         console.log(error.message);
       });
-    setOpen(false);
   };
-  const updateData = (props) => {
-    updateProfile(auth.currentUser, {
-      displayName: displayNameUser,
-    })
-      .then(() => {})
-      .catch((error) => {
-        // An error occurred
-        // ...
-      });
-    setOpen(false);
+  const updateName = () => {
+    if (displayNameUser !== null && displayNameUser !== '') {
+      updateProfile(auth.currentUser, {
+        displayName: displayNameUser,
+      })
+        .then(() => {
+          setOpen(false);
+          window.location.reload();
+        })
+        .catch((error) => {
+          // An error occurred
+          // ...
+        });
+    } else {
+      setPasswordErr('nameErr');
+    }
+  };
+  const updatePass = () => {
+    if (
+      userPassword !== '' &&
+      userPasswordCheck !== '' &&
+      userPasswordCheck !== null &&
+      userPassword !== null
+    ) {
+      if (userPassword === userPasswordCheck) {
+        const user = auth.currentUser;
+        const newPassword = userPassword;
+        updatePassword(user, newPassword)
+          .then(() => {
+            dispatch({ type: 'LOGOUT' });
+            setOpen(false);
+            window.location.reload();
+          })
+          .catch((error) => {
+            setPasswordErr('reauth');
+          });
+      } else {
+        setPasswordErr('passv');
+      }
+    } else {
+      setPasswordErr('fail');
+    }
   };
   const handleClose = () => {
-    console.log(displayNameUser);
     setAnchorEl(null);
   };
 
@@ -182,33 +223,48 @@ function AppBarNew(props) {
                   Ваше имя: {userN}
                   <TextField
                     sx={{ mt: 1 }}
-                    id='outlined-basic'
                     label='Введите новое имя'
                     variant='outlined'
                     onChange={(e) => setDisplayName(e.target.value)}
                   />
+                  <Divider />
+                  Изменение пароля
                   <TextField
-                    sx={{ mt: 1 }}
-                    id='outlined-basic'
-                    label='Пока хз'
+                    label='Введите новый пароль'
                     variant='outlined'
+                    type='password'
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                   <TextField
-                    sx={{ mt: 1 }}
-                    id='outlined-basic'
-                    label='Пока хз'
+                    label='Подтвердите новый пароль'
                     variant='outlined'
-                  />
+                    type='password'
+                    onChange={(e) => setPasswordCheck(e.target.value)}
+                  />{' '}
                 </Stack>
               ) : (
                 <div style={{ textAlign: 'center' }}>
                   <Loader size='md' speed='fast' />
                 </div>
               )}
+              {passwordErr === 'reauth' && (
+                <Alert severity='error'>
+                  Для смены пароля нужно заново авторизироваться
+                </Alert>
+              )}
+              {passwordErr === 'passv' && (
+                <Alert severity='error'>Пароли различаются</Alert>
+              )}
+              {passwordErr === 'fail' && (
+                <Alert severity='error'>Введенный пароль не подтвержден</Alert>
+              )}
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={updateData} appearance='primary'>
-                Изменить
+              <Button onClick={updateName} appearance='primary'>
+                Изменить имя
+              </Button>
+              <Button onClick={updatePass} appearance='primary'>
+                Изменить парроль
               </Button>
               <Button onClick={handleCloseMenu} appearance='subtle'>
                 Отмена
@@ -217,7 +273,6 @@ function AppBarNew(props) {
           </Modal>
         </>
       )}
-      {}
     </>
   );
 }
