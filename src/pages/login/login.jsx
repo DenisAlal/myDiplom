@@ -1,6 +1,6 @@
 import './login.scss';
 import { useState, useContext } from 'react';
-import { TextField, Alert, Divider, Stack } from '@mui/material';
+import { TextField, Alert, Stack } from '@mui/material';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
@@ -26,11 +26,13 @@ const Login = () => {
         setError(true);
       });
   };
-
+  const handleClose = () => {
+    navigate('/');
+  };
   return (
     <>
       <div className='login'>
-        <Modal open={true} size={'sm'}>
+        <Modal open={true} size={'sm'} onClose={handleClose}>
           <Modal.Header>
             <Modal.Title>Авторизация</Modal.Title>
           </Modal.Header>
