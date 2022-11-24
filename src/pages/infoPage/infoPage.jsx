@@ -2,7 +2,7 @@ import AppBarLog from '../../components/appBar/appBar';
 import Image from 'mui-image';
 import './infoPage.scss';
 import BG from './BG.png';
-import { Grid, Paper } from '@mui/material';
+
 function Start() {
   return (
     <>
